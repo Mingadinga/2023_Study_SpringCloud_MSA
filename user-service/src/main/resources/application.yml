@@ -1,0 +1,55 @@
+# 랜덤 포트 사용
+server:
+  port: 0
+
+# 마이크로서비스 아이디
+spring:
+  application:
+    name: user-service
+  zipkin:
+    base-url: http://127.0.0.1:9491
+    enabled: true
+  sleuth:
+    sampler:
+      probability: 1.0
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: /h2-console
+
+# 유레카 클라이언트 설정
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka # 이 엔드포인트(유레카 서버)에 애플리케이션을 등록한다
+  # 인스턴스 아이디 지정 - 유레카 대시보드에 인스턴스 모두 표시
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+
+greeting:
+  message: Welcome to the Simple E-commerce.
+
+# config server에서 불러오는 설정값
+#token:
+#  expiration_time: 86400000 # 1 day
+#  secret: user_token
+
+
+# refresh, health, beans 액추에이터 등록
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, busrefresh, info, metrics, prometheus
+logging:
+  level:
+    com.example.userservice.client: DEBUG
