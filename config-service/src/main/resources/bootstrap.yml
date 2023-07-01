@@ -1,0 +1,7 @@
+encrypt:
+#  key: abcdefghijklmnopqrstuvwzyuv123456789
+  key-store:
+#    location: file://${user.home}/IdeaProjects/springcloud/keystore/apiEncryptionKey.jks
+    location: file:/apiEncryption.jks # 컨테이너 루트
+    password: test1234
+    alias: apiEncryptionKey
